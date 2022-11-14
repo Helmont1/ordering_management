@@ -1,10 +1,10 @@
 <h1 align="center"> Pedidos </h1>
 
-![Badge Release Date](https://img.shields.io/github/release-date/Helmont1/ParkingApi)
-![Badge Github Issues](https://img.shields.io/github/issues/Helmont1/ParkingApi)
-![Badge Github Forks](https://img.shields.io/github/forks/Helmont1/ParkingApi)
-![Badge Github Stars](https://img.shields.io/github/stars/Helmont1/ParkingApi)
-![Badge License](https://img.shields.io/github/license/Helmont1/ParkingApi)
+![Badge Release Date](https://img.shields.io/github/release-date/Helmont1/ordering_management)
+![Badge Github Issues](https://img.shields.io/github/issues/Helmont1/ordering_management)
+![Badge Github Forks](https://img.shields.io/github/forks/Helmont1/ordering_management)
+![Badge Github Stars](https://img.shields.io/github/stars/Helmont1/ordering_management)
+![Badge License](https://img.shields.io/github/license/Helmont1/ordering_management)
 
 # Index 
 * [Project description](#project-description)
