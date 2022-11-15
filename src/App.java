@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class App {
     static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
     public static void main(String[] args) throws Exception {
         var clientes = new ArrayList<Cliente>();
         leArquivoClientes(clientes);
@@ -20,17 +21,30 @@ public class App {
 
         var pedidos = new ArrayList<Pedido>();
         leArquivoPedidos(pedidos);
-        
+
         new Menu(clientes, fornecedores, produtos, pedidos);
     }
 
-    private static void leArquivoPedidos(ArrayList<Pedido> pedidos) throws IOException, NumberFormatException, ParseException {
+    private static void leArquivoPedidos(ArrayList<Pedido> pedidos)
+            throws IOException, NumberFormatException, ParseException {
         var linhas = Files.readAllLines(Paths.get("data/pedidos.csv"), Charset.defaultCharset());
         for (var linha : linhas) {
             var dados = linha.split(";");
-            var novoPedido = new Pedido(Integer.parseInt(dados[0]), sdf.parse(dados[1]), Double.parseDouble(dados[2]), dados[3], Boolean.parseBoolean(dados[4]));
-            pedidos.add(novoPedido);
+            var novoPedido = new Pedido(Integer.parseInt(dados[0]), sdf.parse(dados[1]), Double.parseDouble(dados[2]),
+                    dados[3], Boolean.parseBoolean(dados[4]), teste(dados[5]));
+                    pedidos.add(novoPedido);
         }
+    }
+
+
+    private static ArrayList<ItemPedido> teste(String dados) {
+        ArrayList<ItemPedido> itemPedidos = new ArrayList<ItemPedido>();
+        for (var item : dados.split("],")) {
+            var novoItem = item.replace("]", "").replace("[", "").split(",");
+            itemPedidos.add(new ItemPedido(novoItem[0], Integer.parseInt(novoItem[1]), Double.parseDouble(novoItem[2]),
+                    Double.parseDouble(novoItem[3])));
+        }
+        return itemPedidos;
     }
 
     private static void leArquivoProdutos(ArrayList<Produto> produtos) throws IOException {

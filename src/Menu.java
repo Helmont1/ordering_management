@@ -40,7 +40,7 @@ public class Menu {
                     produtos.add(novoProduto);
                     break;
                 case 4:
-                    var novoPedido = efetuarPedido();
+                    var novoPedido = efetuarPedido(produtos);
                     pedidos.add(novoPedido);
                     break;
                 case 5:
@@ -118,21 +118,41 @@ public class Menu {
         }
     }
 
-    private Pedido efetuarPedido() throws ParseException {
+    private Pedido efetuarPedido(ArrayList<Produto> produtos) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        var valorTotal = 0.0;
         var sc = new Scanner(System.in);
         var scString = new Scanner(System.in);
+        var itensPedido = new ArrayList<ItemPedido>();
         System.out.println("Efetuar Pedido");
         System.out.print("Digite o id do pedido: ");
         var id = sc.nextInt();
         System.out.print("Digite a data do pedido (dd-MM-yyyy): ");
         var data = sdf.parse(scString.nextLine());
-        System.out.print("Digite o valor total do pedido: ");
-        var valorTotal = sc.nextDouble();
         System.out.print("Digite o CPF do cliente: ");
         var cpf = scString.nextLine();
-        var novoPedido = new Pedido(id, data, valorTotal, cpf, false);
-        return novoPedido;
+        System.out.println("Para finalizar o pedido digite 0 no nome e na quantidade");
+        while(true) {
+            System.out.print("Digite o nome do produto: ");
+            var nomeProduto = scString.nextLine();
+            System.out.print("Digite a quantidade do produto: ");
+            var quantidadeProduto = sc.nextInt();
+            if(nomeProduto != "0" && quantidadeProduto != 0) {
+                Produto produto = produtos.stream().filter(p -> p.getNome().equals(nomeProduto)).findFirst().orElse(null);
+                if(produto != null) {
+                    var itemPedido = new ItemPedido(nomeProduto, quantidadeProduto, produto.getValorUnitario(), produto.getValorUnitario() * quantidadeProduto);
+                    itensPedido.add(itemPedido);
+                    valorTotal += itemPedido.getPrecoTotal();
+                } else {
+                    System.out.println("Produto não encontrado!");
+                }
+                
+            } else {
+                break;
+            }
+        }
+        var pedido = new Pedido(id, data, valorTotal, cpf, false, itensPedido);
+        return pedido;
     }
 
     private Produto cadastrarProduto() {
