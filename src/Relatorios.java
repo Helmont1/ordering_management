@@ -6,7 +6,9 @@ import java.util.Scanner;
 @SuppressWarnings("resource")
 public class Relatorios {
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-    public Relatorios(ArrayList<Cliente> clientes, ArrayList<Fornecedor> fornecedores,ArrayList<Produto> produtos, ArrayList<Pedido> pedidos) throws ParseException {
+
+    public Relatorios(ArrayList<Cliente> clientes, ArrayList<Fornecedor> fornecedores, ArrayList<Produto> produtos,
+            ArrayList<Pedido> pedidos) throws ParseException {
         int op = 0;
         var sc = new Scanner(System.in);
 
@@ -46,7 +48,8 @@ public class Relatorios {
                 case 3:
                     System.out.println("Listagem de todos os Produtos");
                     for (var produto : produtos) {
-                        System.out.println(produto.toString());
+                        if(produto != null)
+                            System.out.println(produto.toString());
                     }
                     System.out.println("Pressione qualquer tecla para continuar...");
                     scannerString.nextLine();
@@ -60,14 +63,14 @@ public class Relatorios {
                     scannerString.nextLine();
                     break;
                 case 5:
-                    
+
                     System.out.println("Listagem de todos os pedidos feitos em um determinado intervalo de datas");
                     System.out.println("Digite a data inicial");
                     var dataInicial = scannerString.nextLine();
                     System.out.println("Digite a data final");
                     var dataFinal = scannerString.nextLine();
                     for (var pedido : pedidos) {
-                        //lista os pedidos feitos entre as datas comparando datas do tipo Date
+                        // lista os pedidos feitos entre as datas comparando datas do tipo Date
                         if (pedido.getData().after(sdf.parse(dataInicial))
                                 && pedido.getData().before(sdf.parse(dataFinal))) {
                             System.out.println(pedido.toString());

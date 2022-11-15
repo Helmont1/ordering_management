@@ -3,7 +3,6 @@ public class ItemPedido {
     private int quantidade;
     private double precoUnitario;
     private double precoTotal;
-    
 
     public ItemPedido(String nomeProduto, int quantidade, double precoUnitario, double precoTotal) {
         this.nomeProduto = nomeProduto;
@@ -39,7 +38,7 @@ public class ItemPedido {
     public double getPrecoTotal() {
         return precoTotal;
     }
-    
+
     public void setPrecoTotal(double precoTotal) {
         this.precoTotal = precoTotal;
     }

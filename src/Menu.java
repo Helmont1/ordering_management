@@ -9,7 +9,8 @@ import java.util.Scanner;
 
 @SuppressWarnings("resource")
 public class Menu {
-    public Menu(ArrayList<Cliente> clientes, ArrayList<Fornecedor> fornecedores,ArrayList<Produto> produtos, ArrayList<Pedido> pedidos) throws ParseException {
+    public Menu(ArrayList<Cliente> clientes, ArrayList<Fornecedor> fornecedores, ArrayList<Produto> produtos,
+            ArrayList<Pedido> pedidos) throws ParseException {
         int opcao = 0;
         do {
             var sc = new Scanner(System.in);
@@ -36,7 +37,7 @@ public class Menu {
                     fornecedores.add(novoFornecedor);
                     break;
                 case 3:
-                    var novoProduto = cadastrarProduto();
+                    var novoProduto = cadastrarProduto(produtos);
                     produtos.add(novoProduto);
                     break;
                 case 4:
@@ -62,6 +63,7 @@ public class Menu {
         gravaArquivoProdutos(produtos);
         gravaArquivoPedidos(pedidos);
     }
+
     private static void gravaArquivoPedidos(ArrayList<Pedido> pedidos) {
         var linhas = new ArrayList<String>();
         for (var pedido : pedidos) {
@@ -76,8 +78,10 @@ public class Menu {
 
     private static void gravaArquivoProdutos(ArrayList<Produto> produtos) {
         var linhas = new ArrayList<String>();
+
         for (var produto : produtos) {
-            linhas.add(produto.toCSV());
+            if (produto != null)
+                linhas.add(produto.toCSV());
         }
         try {
             Files.write(Paths.get("data/produtos.csv"), linhas, Charset.forName("UTF-8"));
@@ -132,21 +136,22 @@ public class Menu {
         System.out.print("Digite o CPF do cliente: ");
         var cpf = scString.nextLine();
         System.out.println("Para finalizar o pedido digite 0 no nome e na quantidade");
-        while(true) {
+        while (true) {
             System.out.print("Digite o nome do produto: ");
             var nomeProduto = scString.nextLine();
             System.out.print("Digite a quantidade do produto: ");
             var quantidadeProduto = sc.nextInt();
-            if(nomeProduto != "0" && quantidadeProduto != 0) {
-                Produto produto = produtos.stream().filter(p -> p.getNome().equals(nomeProduto)).findFirst().orElse(null);
-                if(produto != null) {
-                    var itemPedido = new ItemPedido(nomeProduto, quantidadeProduto, produto.getValorUnitario(), produto.getValorUnitario() * quantidadeProduto);
+            if (nomeProduto != "0" && quantidadeProduto != 0) {
+                Produto produto = produtos.stream().filter(p -> p.getNome().equals(nomeProduto)).findFirst()
+                        .orElse(null);
+                if (produto != null) {
+                    var itemPedido = new ItemPedido(nomeProduto, quantidadeProduto, produto.getValorUnitario(),
+                            produto.getValorUnitario() * quantidadeProduto);
                     itensPedido.add(itemPedido);
                     valorTotal += itemPedido.getPrecoTotal();
                 } else {
                     System.out.println("Produto não encontrado!");
                 }
-                
             } else {
                 break;
             }
@@ -155,11 +160,16 @@ public class Menu {
         return pedido;
     }
 
-    private Produto cadastrarProduto() {
+    private Produto cadastrarProduto(ArrayList<Produto> produtos) {
         var sc = new Scanner(System.in);
         var scString = new Scanner(System.in);
         System.out.print("Digite o nome do produto: ");
-        var codigo = scString.nextLine();
+        var nome = scString.nextLine();
+        if (produtos.stream().anyMatch(p -> p.getNome().equals(nome))) {
+            System.out.println("Produto já cadastrado!");
+            scString.nextLine();
+            return null;
+        }
         System.out.print("Digite a descrição do produto: ");
         var descricao = scString.nextLine();
         System.out.print("Digite o preço do produto: ");
@@ -168,7 +178,7 @@ public class Menu {
         var cnpj = scString.nextLine();
         System.out.print("Digite o nome do fornecedor: ");
         var nomeFornecedor = scString.nextLine();
-        var novoProduto = new Produto(codigo, descricao, preco, cnpj, nomeFornecedor);
+        var novoProduto = new Produto(nome, descricao, preco, cnpj, nomeFornecedor);
         return novoProduto;
     }
 

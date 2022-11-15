@@ -14,8 +14,8 @@ public class App {
         leArquivoClientes(clientes);
 
         var fornecedores = new ArrayList<Fornecedor>();
-        leArquivoFornecedores(fornecedores);
 
+        leArquivoFornecedores(fornecedores);
         var produtos = new ArrayList<Produto>();
         leArquivoProdutos(produtos);
 
@@ -32,12 +32,12 @@ public class App {
             var dados = linha.split(";");
             var novoPedido = new Pedido(Integer.parseInt(dados[0]), sdf.parse(dados[1]), Double.parseDouble(dados[2]),
                     dados[3], Boolean.parseBoolean(dados[4]), teste(dados[5]));
-                    pedidos.add(novoPedido);
+            pedidos.add(novoPedido);
         }
     }
 
-
     private static ArrayList<ItemPedido> teste(String dados) {
+
         ArrayList<ItemPedido> itemPedidos = new ArrayList<ItemPedido>();
         for (var item : dados.split("],")) {
             var novoItem = item.replace("]", "").replace("[", "").split(",");

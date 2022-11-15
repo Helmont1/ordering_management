@@ -54,10 +54,12 @@ public class Produto {
     }
 
     public String toCSV() {
-        return this.nome + ";" + this.descricao + ";" + this.valorUnitario + ";" + this.cnpj + ";" + this.nomeFornecedor;
+        return this.nome + ";" + this.descricao + ";" + this.valorUnitario + ";" + this.cnpj + ";"
+                + this.nomeFornecedor;
     }
 
     public String toString() {
-        return "Nome: " + this.nome + " Descricao: " + this.descricao + " Valor Unitario: " + this.valorUnitario + " CNPJ: " + this.cnpj + " Nome Fornecedor: " + this.nomeFornecedor;
+        return "Nome: " + this.nome + " Descricao: " + this.descricao + " Valor Unitario: " + this.valorUnitario
+                + " CNPJ: " + this.cnpj + " Nome Fornecedor: " + this.nomeFornecedor;
     }
 }
