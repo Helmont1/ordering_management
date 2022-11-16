@@ -116,7 +116,10 @@ public class Menu {
 
     private void limpaConsole() {
         try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            new ProcessBuilder("cmd", "/c", "cls")
+                .inheritIO()
+                .start()
+                .waitFor();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -142,8 +145,10 @@ public class Menu {
             System.out.print("Digite a quantidade do produto: ");
             var quantidadeProduto = sc.nextInt();
             if (nomeProduto != "0" && quantidadeProduto != 0) {
-                Produto produto = produtos.stream().filter(p -> p.getNome().equals(nomeProduto)).findFirst()
-                        .orElse(null);
+                Produto produto = produtos.stream()
+                                    .filter(p -> p.getNome().equals(nomeProduto))
+                                    .findFirst()
+                                    .orElse(null);
                 if (produto != null) {
                     var itemPedido = new ItemPedido(nomeProduto, quantidadeProduto, produto.getValorUnitario(),
                             produto.getValorUnitario() * quantidadeProduto);

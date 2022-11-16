@@ -25,4 +25,3 @@ Project developed for the OOP discipline. "Pedidos" is a program designed to man
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=Concluded&color=GREEN&style=for-the-badge)
 
 # Application Features and Demo
-
