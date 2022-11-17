@@ -48,6 +48,7 @@ public class Menu {
                     baixarPagamento(pedidos);
                     break;
                 case 6:
+                    // Chama o relatório
                     new Relatorios(clientes, fornecedores, produtos, pedidos);
                     break;
                 case 7:
@@ -65,6 +66,7 @@ public class Menu {
     }
 
     private static void gravaArquivoPedidos(ArrayList<Pedido> pedidos) {
+        // Grava pedidos no arquivo csv
         var linhas = new ArrayList<String>();
         for (var pedido : pedidos) {
             linhas.add(pedido.toCSV());
@@ -77,6 +79,7 @@ public class Menu {
     }
 
     private static void gravaArquivoProdutos(ArrayList<Produto> produtos) {
+        // Grava produtos no arquivo csv
         var linhas = new ArrayList<String>();
 
         for (var produto : produtos) {
@@ -91,7 +94,9 @@ public class Menu {
     }
 
     private void gravaArquivoFornecedores(ArrayList<Fornecedor> fornecedores) {
+        // Grava os fornecedores no arquivo csv
         var linhas = new ArrayList<String>();
+
         for (var fornecedor : fornecedores) {
             linhas.add(fornecedor.toCSV());
         }
@@ -103,6 +108,7 @@ public class Menu {
     }
 
     private void gravaArquivoClientes(ArrayList<Cliente> clientes) {
+        // Grava os clientes no arquivo csv
         var linhas = new ArrayList<String>();
         for (var cliente : clientes) {
             linhas.add(cliente.toCSV());
@@ -115,22 +121,25 @@ public class Menu {
     }
 
     private void limpaConsole() {
+        // Limpa o console
         try {
             new ProcessBuilder("cmd", "/c", "cls")
-                .inheritIO()
-                .start()
-                .waitFor();
+                    .inheritIO()
+                    .start()
+                    .waitFor();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
     private Pedido efetuarPedido(ArrayList<Produto> produtos) throws ParseException {
+        // Cadastra um pedido e os itens do pedido
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         var valorTotal = 0.0;
         var sc = new Scanner(System.in);
         var scString = new Scanner(System.in);
         var itensPedido = new ArrayList<ItemPedido>();
+
         System.out.println("Efetuar Pedido");
         System.out.print("Digite o id do pedido: ");
         var id = sc.nextInt();
@@ -139,17 +148,20 @@ public class Menu {
         System.out.print("Digite o CPF do cliente: ");
         var cpf = scString.nextLine();
         System.out.println("Para finalizar o pedido digite 0 no nome e na quantidade");
+
         while (true) {
             System.out.print("Digite o nome do produto: ");
             var nomeProduto = scString.nextLine();
             System.out.print("Digite a quantidade do produto: ");
             var quantidadeProduto = sc.nextInt();
             if (nomeProduto != "0" && quantidadeProduto != 0) {
+                // Busca o produto pelo nome, se não encontrar retorna null
                 Produto produto = produtos.stream()
-                                    .filter(p -> p.getNome().equals(nomeProduto))
-                                    .findFirst()
-                                    .orElse(null);
+                        .filter(p -> p.getNome().equals(nomeProduto))
+                        .findFirst()
+                        .orElse(null);
                 if (produto != null) {
+                    // Cria um item de pedido e adiciona na lista de itens
                     var itemPedido = new ItemPedido(nomeProduto, quantidadeProduto, produto.getValorUnitario(),
                             produto.getValorUnitario() * quantidadeProduto);
                     itensPedido.add(itemPedido);
@@ -161,11 +173,14 @@ public class Menu {
                 break;
             }
         }
+        // Cria o pedido e retorna o objeto
         var pedido = new Pedido(id, data, valorTotal, cpf, false, itensPedido);
         return pedido;
     }
 
     private Produto cadastrarProduto(ArrayList<Produto> produtos) {
+        // Cadastro de produtos, com validação de nome único, retorna o produto
+        // cadastrado
         var sc = new Scanner(System.in);
         var scString = new Scanner(System.in);
         System.out.print("Digite o nome do produto: ");
@@ -188,6 +203,7 @@ public class Menu {
     }
 
     private Fornecedor cadastrarFornecedor() throws ParseException {
+        // Cadastro de fornecedor, retorna um objeto do tipo fornecedor
         var sdf = new SimpleDateFormat("dd-MM-yyyy");
         var sc = new Scanner(System.in);
         var scString = new Scanner(System.in);
@@ -206,6 +222,7 @@ public class Menu {
     }
 
     private Cliente cadastrarCliente() {
+        // Cadastro de clientes, retorna um objeto do tipo cliente
         var sc = new Scanner(System.in);
         var scString = new Scanner(System.in);
         System.out.println("Cadastro de Clientes");
